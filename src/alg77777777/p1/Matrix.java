@@ -6,25 +6,42 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collector;
 
 public class Matrix {
+
+    private int[][] matrix;
+    private int min;
+    private int max;
+
+    public Matrix(int tam) {
+        this.min = 0;
+        this.max = 4;
+        this.matrix = matrizOperaciones(tam);
+    }
+
+    public Matrix(int tam, int min, int max) {
+        this.min = min;
+        this.max = max;
+        this.matrix = matrizOperaciones(tam);
+    }
+
+    public Matrix(String nomFich) {
+        this.matrix = matrizOperaciones(nomFich);
+    }
 
     /**
      * Crea una matriz de tamaño nxn y la rellena con valores aleatorios, estos valores aleatorios deben de ser
      * parametrizables entre un máximo y un mínimo.
      *
-     * @param n   Tamaño de la matriz.
-     * @param min Minimo valor de los randoms que rellenaran la matriz.
-     * @param max Maximo valor de los randoms que rellenaran la matriz.
+     * @param n Tamaño de la matriz.
      * @return Matriz ya formada.
      */
-    public static int[][] MatrizOperaciones(int n, int min, int max) {
+    public int[][] matrizOperaciones(int n) {
         int[][] matriz = new int[n][n];
         Random rng = new Random();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                matriz[i][j] = rng.nextInt(max + 1) + min;
+                matriz[i][j] = rng.nextInt(this.max + 1) + this.min;
             }
         }
         return matriz;
@@ -38,7 +55,7 @@ public class Matrix {
      * @param nomFich Ruta al fichero que se quiere usar.
      * @return Matriz ya formada.
      */
-    public static int[][] MatrizOperaciones(String nomFich) {
+    public int[][] matrizOperaciones(String nomFich) {
         int[][] matriz;
         List<String> lines = null;
 
@@ -61,23 +78,20 @@ public class Matrix {
     /**
      * Devuelve el tamaño de la matriz.
      *
-     * @param matriz Matriz de la que se quiere calcular el tamaño.
      * @return Tamño de la matriz (Debe ser cuadrada).
      */
-    public static int getTam(int[][] matriz) {
-        return matriz[0].length;
+    public int getTam() {
+        return this.matrix[0].length;
     }
 
     /**
      * Muestra el contenido de la matriz por pantalla.
-     *
-     * @param matriz Matriz que se quiere imprimir.
      */
-    public static void escribir(int[][] matriz) {
-        int tam = getTam(matriz);
+    public void escribir() {
+        int tam = getTam();
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
-                System.out.print(matriz[i][j] + j == tam - 1 ? "\n" : "");
+                System.out.print(this.matrix[i][j] + j == tam - 1 ? "\n" : "");
             }
         }
     }
@@ -86,16 +100,15 @@ public class Matrix {
      * Calcula de forma iterativa la suma de la diagonal. Forma 1: recorrer toda la matriz, pero sólo sumando los
      * elementos de la diagonal.
      *
-     * @param matriz Matriz de la que se desea conocer la suma de su diagonal.
      * @return Suma acumulada de la diagonal de la matriz dada.
      */
-    public static int sumarDiagonal1(int[][] matriz) {
-        int tam = getTam(matriz);
+    public int sumarDiagonal1() {
+        int tam = getTam();
         int acum = 0;
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
                 if (i == j)
-                    acum += matriz[i][j];
+                    acum += this.matrix[i][j];
             }
         }
         return acum;
@@ -104,14 +117,13 @@ public class Matrix {
     /**
      * Calcula de forma iterativa la suma de la diagonal. Forma 2: recorrer los elementos de la diagonal sumándolos
      *
-     * @param matriz atriz de la que se desea conocer la suma de su diagonal.
      * @return Suma acumulada de la diagonal de la matriz dada.
      */
-    public static int sumarDiagonal2(int[][] matriz) {
-        int tam = getTam(matriz);
+    public int sumarDiagonal2() {
+        int tam = getTam();
         int sum = 0;
         for (int i = 0; i < tam; i++) {
-            sum += matriz[i][i];
+            sum += this.matrix[i][i];
         }
         return sum;
     }
@@ -122,22 +134,21 @@ public class Matrix {
      * derecha, 3 - abajo, 4 – izquierda. Vamos a utilizar para marcar el camino el código -1. El proceso finalizará
      * cuando el camino salga de los límites de la matriz o bien alcance una casilla ya recorrida.
      *
-     * @param matriz Matriz de la que se quiere calcular el camino
-     * @param i      Coordenada en el eje y desde donde se quiere comenzar.
-     * @param j      Coordenada en el eje x desde donde se quiere comenzar.
+     * @param i Coordenada en el eje y desde donde se quiere comenzar.
+     * @param j Coordenada en el eje x desde donde se quiere comenzar.
      */
-    public static void recorrerCamino(int[][] matriz, int i, int j) {
-        int tam = getTam(matriz);
+    public void recorrerCamino(int i, int j) {
+        int tam = getTam();
         do {
-            int value = matriz[i][j];
-            matriz[i][j] = -1;
+            int value = this.matrix[i][j];
+            this.matrix[i][j] = -1;
             if (value % 2 != 0) {
                 i += (value - 2);
             } else {
                 j += (3 - value);
             }
-        } while (i >= 0 && j >= 0 && i < tam && j < tam && matriz[i][j] != -1);
+        } while (i >= 0 && j >= 0 && i < tam && j < tam && this.matrix[i][j] != -1);
 
-        escribir(matriz);
+        escribir();
     }
 }
