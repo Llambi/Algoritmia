@@ -7,24 +7,44 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Clase que simula una matriz de numeros.
+ */
 public class Matrix {
 
     private int[][] matrix;
     private int min;
     private int max;
 
+    /**
+     * Contructor de la clase para crear una matriz de tamaño n y con los valores de esta entre 0 y 4.
+     *
+     * @param tam Tamaño de la matriz.
+     */
     public Matrix(int tam) {
         this.min = 0;
         this.max = 4;
         this.matrix = matrizOperaciones(tam);
     }
 
+    /**
+     * Constructor de la clase para crear una matriz de tamaño n y con los valores de esta entre un minimo y maximo dados.
+     *
+     * @param tam Tamaño de la matriz.
+     * @param min minimo de los valores de la matriz.
+     * @param max Maximo de los valores de la matriz.
+     */
     public Matrix(int tam, int min, int max) {
         this.min = min;
         this.max = max;
         this.matrix = matrizOperaciones(tam);
     }
 
+    /**
+     * Constructor de la clase para crear una una matriz a partir de un fichero dado.
+     *
+     * @param nomFich Ruta al fichero que se quiere usar para crear la matriz.
+     */
     public Matrix(String nomFich) {
         this.matrix = matrizOperaciones(nomFich);
     }
@@ -91,7 +111,7 @@ public class Matrix {
         int tam = getTam();
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
-                System.out.print(this.matrix[i][j] + j == tam - 1 ? "\n" : "");
+                System.out.print(this.matrix[i][j]+ " " + (j == tam - 1 ? "\n\n" : ""));
             }
         }
     }
