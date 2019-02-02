@@ -88,9 +88,9 @@ public class Matrix {
         int tam = Integer.valueOf(lines.get(0));
         matriz = new int[tam][tam];
 
-        for (int i = 1; i < tam; i++) {
-            int[] numbers = Arrays.stream(lines.get(1).split("\t")).mapToInt(Integer::parseInt).toArray();
-            System.arraycopy(numbers, 0, matriz[i], 0, tam);
+        for (int i = 1; i <= tam; i++) {
+            int[] numbers = Arrays.stream(lines.get(i).split("\t")).mapToInt(Integer::parseInt).toArray();
+            System.arraycopy(numbers, 0, matriz[i-1], 0, tam);
         }
         return matriz;
     }
@@ -108,12 +108,13 @@ public class Matrix {
      * Muestra el contenido de la matriz por pantalla.
      */
     public void escribir() {
-        int tam = getTam();
-        for (int i = 0; i < tam; i++) {
-            for (int j = 0; j < tam; j++) {
-                System.out.print(this.matrix[i][j]+ " " + (j == tam - 1 ? "\n\n" : ""));
+        for (int[] row : matrix) {
+            for (int number : row) {
+                System.out.printf("%4d", number);
             }
+            System.out.println();
         }
+        System.out.println("\n");
     }
 
     /**
@@ -150,8 +151,14 @@ public class Matrix {
 
     /**
      * En una matriz cuyos valores varían entre 1 y 4 vamos a trazar un “camino” partienendo de la posición (i,j) que
-     * pasamos como parámetro y utilizando los valores de la matriz como códigos de dirección: 1 - arriba, 2 -
-     * derecha, 3 - abajo, 4 – izquierda. Vamos a utilizar para marcar el camino el código -1. El proceso finalizará
+     * pasamos como parámetro y utilizando los valores de la matriz como códigos de dirección:
+     *
+     * 1 - arriba.
+     * 2 - derecha.
+     * 3 - abajo.
+     * 4 – izquierda.
+     *
+     * Vamos a utilizar para marcar el camino el código -1. El proceso finalizará
      * cuando el camino salga de los límites de la matriz o bien alcance una casilla ya recorrida.
      *
      * @param i Coordenada en el eje y desde donde se quiere comenzar.
