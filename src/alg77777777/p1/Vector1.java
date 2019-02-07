@@ -27,15 +27,15 @@ public class Vector1 {
         v = new int[n];
 
         rellena(v);
-        escribe(v);
+//        escribe(v);
 
-        int s = suma(v);
-        System.out.println("Suma de los elementos del vector = " + s);
-
+//        int s = suma(v);
+//        System.out.println("Suma de los elementos del vector = " + s);
+//
         int[] m = new int[2];
         maximo(v, m);
-        System.out.println("Valor del máximo del vector = " + m[1]);
-        System.out.println("Posición del máximo del vector = " + m[0]);
+//        System.out.println("Valor del máximo del vector = " + m[1]);
+//        System.out.println("Posición del máximo del vector = " + m[0]);
 
     } // fin de main
 
