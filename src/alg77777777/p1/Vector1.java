@@ -1,4 +1,4 @@
-﻿/*
+/*
 	JAVA es sensible a minúsculas y mayusculas (minúscula != mayúscula)
 	Es norma que una clase comience por letra mayúscula.
 	Los métodos y todo tipo de variables comienzan por minúscula.
