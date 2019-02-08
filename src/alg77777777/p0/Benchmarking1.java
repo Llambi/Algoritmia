@@ -1,4 +1,4 @@
-package alg77777777.p1;
+package alg77777777.p0;
 
 import java.util.Random;
 

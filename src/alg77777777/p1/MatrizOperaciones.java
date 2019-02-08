@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Clase que simula una matriz de numeros.
  */
-public class Matrix {
+public class MatrizOperaciones {
 
     private int[][] matrix;
     private int min;
@@ -21,7 +21,7 @@ public class Matrix {
      *
      * @param tam Tamaño de la matriz.
      */
-    public Matrix(int tam) {
+    public MatrizOperaciones(int tam) {
         this.min = 0;
         this.max = 4;
         this.matrix = matrizOperaciones(tam);
@@ -34,7 +34,7 @@ public class Matrix {
      * @param min minimo de los valores de la matriz.
      * @param max Maximo de los valores de la matriz.
      */
-    public Matrix(int tam, int min, int max) {
+    public MatrizOperaciones(int tam, int min, int max) {
         this.min = min;
         this.max = max;
         this.matrix = matrizOperaciones(tam);
@@ -45,7 +45,7 @@ public class Matrix {
      *
      * @param nomFich Ruta al fichero que se quiere usar para crear la matriz.
      */
-    public Matrix(String nomFich) {
+    public MatrizOperaciones(String nomFich) {
         this.matrix = matrizOperaciones(nomFich);
     }
 
