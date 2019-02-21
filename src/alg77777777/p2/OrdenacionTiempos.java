@@ -10,36 +10,35 @@ public class OrdenacionTiempos {
 	public static void main (String arg []){
 		String opcion= arg[0];
 		
-		int[] it = new int[nTam];
+//		int[] it = new int[nTam];
+		int[] it = new int[] { 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
 		int i= 0;
-		for (int tam= 10000; tam<=Integer.MAX_VALUE && i<it.length; tam*= 2) {
+		for (int tam = 10000; tam<=Integer.MAX_VALUE && i< it.length; tam*= 2) {
 			it[i]= tam;
 			i++;
 		}
-//		int[] it = new int[] { 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000, 1024000,
-//				2048000, 4096000, 8192000, 16384000, 32768000, 65536000, 131072000, 262144000, 524288000 };
 		int n = it[0];
 		System.out.println("i= "+i);
-		
-		
-		// Medir tiempo: Insercion
-		medirTiempos(new Insercion(n), it, opcion);
-		
-		// Medir tiempo: Seleccion
-		medirTiempos(new Seleccion(n), it, opcion);
-		
-		// Medir tiempo: Burbuja
-		medirTiempos(new Burbuja(n), it, opcion);
-		
-		// Medir tiempo: RapidoFatal
-		medirTiempos(new RapidoFatal(n), it, opcion);
-		
-		// Medir tiempo: RapidoCentral
-		medirTiempos(new RapidoCentral(n), it, opcion);
-		
+
 		// Medir tiempo: RapidoMediana
 		medirTiempos(new RapidoMediana(n), it, opcion);
-		
+
+		// Medir tiempo: Insercion
+		medirTiempos(new Insercion(n), it, opcion);
+
+		// Medir tiempo: Seleccion
+		medirTiempos(new Seleccion(n), it, opcion);
+
+		// Medir tiempo: Burbuja
+		medirTiempos(new Burbuja(n), it, opcion);
+
+		// Medir tiempo: RapidoFatal
+//		medirTiempos(new RapidoFatal(n), it, opcion);
+
+		// Medir tiempo: RapidoCentral
+//		medirTiempos(new RapidoCentral(n), it, opcion);
+
+
 
 	}
 	
