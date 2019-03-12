@@ -35,6 +35,15 @@ public class EnteroGrande implements Comparable {
     }
 
     /**
+     * Crea un entero grande a partir de un long
+     *
+     * @param entero
+     */
+    public EnteroGrande(Double entero) {
+        this.valor = Double.toString(entero);
+    }
+
+    /**
      * Genera un entero grande aleatorio con el número de cifras indicado
      *
      * @param numCifras número de cifras que tendrá el entero generado (la primera nunca será 0)
@@ -309,33 +318,20 @@ public class EnteroGrande implements Comparable {
      * @return EnteroGrande - devuelve el producto
      */
     public EnteroGrande multiplicarClasica(EnteroGrande e2) {
-        //TODO:
-        int thisTam = this.getNumCifras() - 1;
-        int e2Tam = e2.getNumCifras() - 1;
-        int gap = 0;
-        int[] producto = new int[thisTam * e2Tam];
+        int e2Tam = e2.getNumCifras()-1;
+        EnteroGrande producto = new EnteroGrande(0);
 
-        for (int i = e2Tam; i >= 0; i--) {
+        for (int i = e2.getNumCifras() - 1; i >= 0; i--) {
             int multiplicador = e2.getCifra(i);
-            int carry = 0;
-            int innerCarry = 0;
-            int productoPos = producto.length - 1;
-            for (int j = thisTam; j >= 0; j--) {
-                int multiplicando = this.getCifra(j);
-
-                int sumando = (multiplicando * multiplicador + innerCarry) % 10;
-                innerCarry = (multiplicando * multiplicador + innerCarry) / 10;
-
-                int value = (producto[productoPos - gap] + sumando + carry) % 10;
-                carry = (producto[productoPos - gap] + sumando + carry) / 10;
-
-                producto[productoPos - gap] = value;
-                productoPos--;
+            EnteroGrande sumando = new EnteroGrande(0);
+            for (int j = 0; j < multiplicador; j++) {
+                sumando = sumando.sumar(this);
             }
-            gap++;
-            producto[productoPos - gap + 1] = producto[productoPos - gap + 1] + innerCarry;
+            sumando = sumando.desplazarIzq(e2Tam-i);
+            producto = producto.sumar(sumando);
         }
-        return new EnteroGrande(producto);
+
+        return producto;
     }
 
     /**
@@ -347,8 +343,29 @@ public class EnteroGrande implements Comparable {
      * @return EnteroGrande - devuelve el producto
      */
     public EnteroGrande multiplicarDV(EnteroGrande e2) {
-        //TODO:
-        return multiplicarDV(this, e2);
+        int N = Math.max(e2.getNumCifras(),this.getNumCifras());
+
+        if(N <= 2)
+            return this.multiplicarClasica(e2);
+
+        EnteroGrande thisLow = this.extraerCifrasIniciales(N);
+        EnteroGrande thisHigh = this.extraerCifrasFinales(N);
+        EnteroGrande otherLow = e2.extraerCifrasIniciales(N);
+        EnteroGrande otherHigh = e2.extraerCifrasFinales(N);
+
+        EnteroGrande z1 = thisLow.multiplicarDV(otherLow);
+        EnteroGrande z2 = thisLow.multiplicarDV(otherHigh);
+        EnteroGrande z3 = thisHigh.multiplicarDV(otherLow);
+        EnteroGrande z4 = thisHigh.multiplicarDV(otherHigh);
+
+        EnteroGrande auxSuma = z2.sumar(z3);
+        z1 = z1.desplazarIzq(N);
+        auxSuma = auxSuma.desplazarIzq(N/2);
+
+        EnteroGrande z = z1.sumar(auxSuma);
+        z = z.sumar(z4);
+
+        return z;
     }
 
     /**
