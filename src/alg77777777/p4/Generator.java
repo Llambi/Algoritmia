@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Generator {
-	public static void main(String[] args) { 
+	public static void main(String[] args) {
 	    if (args.length < 6) {
 	    	System.out.println("Generator [FILE_NAME] [NUMBER_OF_WORDS] [MAXIMUM_LENGH_OF_WORDS] [MINIMUM_LENGTH_OF_WORDS] [MAXIMUM_NUMBER_OF_REPETITIONS] [MINIMUM_NUMBER_OF_REPETITIONS]");
 	    	System.exit(-1);
@@ -52,6 +52,6 @@ public class Generator {
 			e.printStackTrace();
 		}
 	    
-    	System.out.println("***File " + fileName + " generated***");
+//    	System.out.println("***File " + fileName + " generated***");
 	}
 }
