@@ -45,13 +45,13 @@ public class Necklace {
 
     public void setDiccionario(Map<String, Integer> diccionario) {
         this.diccionario = diccionario;
-        this.charmsSize = this.diccionario.size()-1;
+        this.charmsSize = this.diccionario.size() - 1;
         this.charms = new LinkedList<>(this.diccionario.keySet());
         this.charms.sort(Comparator.comparingInt(String::length));
     }
 
     private void initCache() {
-        this.cache = new int[this.charmsSize+1][this.necklaceSize+1];
+        this.cache = new int[this.charmsSize + 1][this.necklaceSize + 1];
         for (int i = 0; i < this.charmsSize; i++) {
             this.cache[i][0] = 0;
         }
@@ -63,19 +63,13 @@ public class Necklace {
         for (int col = 1; col <= this.necklaceSize; col++) {
             String solCharm = null;
             for (int row = 0; row <= this.charmsSize; row++) {
-                String evaluateCharm = this.necklace.substring(col - 1, col);
                 String rowCharm = this.charms.get(row);
 
                 int upValue = row > 0 ? this.cache[row - 1][col] : this.cache[this.charmsSize][col - 1];
 
                 int perviousRowCharmPos = col - rowCharm.length();
                 int previousValue = perviousRowCharmPos >= 0 ? this.cache[this.charmsSize][perviousRowCharmPos] : Integer.MIN_VALUE;
-
-                int thisValue = perviousRowCharmPos >= 0 ?
-                        this.necklace.substring(perviousRowCharmPos , col).equals(rowCharm) ?
-                            this.diccionario.get(rowCharm) :
-                            Integer.MIN_VALUE :
-                        Integer.MIN_VALUE;
+                int thisValue = calcThisValue(col, rowCharm, perviousRowCharmPos);
 
                 if (upValue == Math.max(upValue, thisValue + previousValue)) {
                     this.cache[row][col] = upValue;
@@ -84,12 +78,25 @@ public class Necklace {
                     solCharm = rowCharm;
                 }
             }
-            if (solCharm != null)
-                if(!this.charmSolution.isEmpty() && solCharm.contains(this.charmSolution.get(this.charmSolution.size()-1))) {
-                    this.charmSolution.remove(this.charmSolution.size()-1);
-                }
-                this.charmSolution.add(solCharm);
+            add2Sol(solCharm);
         }
         return this.cache[this.charmsSize][this.necklaceSize];
+    }
+
+    private int calcThisValue(int col, String rowCharm, int perviousRowCharmPos) {
+        return perviousRowCharmPos >= 0 ?
+                this.necklace.substring(perviousRowCharmPos, col).equals(rowCharm) ?
+                        this.diccionario.get(rowCharm) :
+                        Integer.MIN_VALUE :
+                Integer.MIN_VALUE;
+    }
+
+    private void add2Sol(String solCharm) {
+        if (solCharm != null) {
+            if (!this.charmSolution.isEmpty() && solCharm.contains(this.charmSolution.get(this.charmSolution.size() - 1))) {
+                this.charmSolution.remove(this.charmSolution.size() - 1);
+            }
+            this.charmSolution.add(solCharm);
+        }
     }
 }
