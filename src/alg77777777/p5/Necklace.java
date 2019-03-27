@@ -1,5 +1,6 @@
 package alg77777777.p5;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,43 +26,70 @@ public class Necklace {
         initCache();
     }
 
+    public List<String> getCharms() {
+        return charms;
+    }
+
+    public String getNecklace() {
+        return necklace;
+    }
+
     public void setNecklace(String necklace) {
         this.necklace = necklace;
         this.necklaceSize = this.necklace.length();
     }
 
+    public List<String> getCharmSolution() {
+        return charmSolution;
+    }
+
     public void setDiccionario(Map<String, Integer> diccionario) {
         this.diccionario = diccionario;
-        this.charmsSize = this.diccionario.size();
+        this.charmsSize = this.diccionario.size()-1;
         this.charms = new LinkedList<>(this.diccionario.keySet());
+        this.charms.sort(Comparator.comparingInt(String::length));
     }
 
     private void initCache() {
-        this.cache = new int[this.charmsSize][this.necklaceSize + 1];
+        this.cache = new int[this.charmsSize+1][this.necklaceSize+1];
         for (int i = 0; i < this.charmsSize; i++) {
             this.cache[i][0] = 0;
         }
     }
 
-    private void run() {
+    public int run() {
         if (this.cache == null) initCache();
 
-        for (int row = 0; row < this.charmsSize; row++) {
-            for (int col = 1; col < this.necklaceSize; col++) {
-                String thisCharm = this.charms.get(row);
-                String previousCharm =
+        for (int col = 1; col <= this.necklaceSize; col++) {
+            String solCharm = null;
+            for (int row = 0; row <= this.charmsSize; row++) {
+                String evaluateCharm = this.necklace.substring(col - 1, col);
+                String rowCharm = this.charms.get(row);
 
-                int previousValue = charmPos >= 0 ? this.cache[this.charmsSize][charmPos] : Integer.MIN_VALUE;
                 int upValue = row > 0 ? this.cache[row - 1][col] : this.cache[this.charmsSize][col - 1];
 
-                if ()
+                int perviousRowCharmPos = col - rowCharm.length();
+                int previousValue = perviousRowCharmPos >= 0 ? this.cache[this.charmsSize][perviousRowCharmPos] : Integer.MIN_VALUE;
 
+                int thisValue = perviousRowCharmPos >= 0 ?
+                        this.necklace.substring(perviousRowCharmPos , col).equals(rowCharm) ?
+                            this.diccionario.get(rowCharm) :
+                            Integer.MIN_VALUE :
+                        Integer.MIN_VALUE;
+
+                if (upValue == Math.max(upValue, thisValue + previousValue)) {
+                    this.cache[row][col] = upValue;
+                } else {
+                    this.cache[row][col] = thisValue + previousValue;
+                    solCharm = rowCharm;
+                }
             }
+            if (solCharm != null)
+                if(!this.charmSolution.isEmpty() && solCharm.contains(this.charmSolution.get(this.charmSolution.size()-1))) {
+                    this.charmSolution.remove(this.charmSolution.size()-1);
+                }
+                this.charmSolution.add(solCharm);
         }
+        return this.cache[this.charmsSize][this.necklaceSize];
     }
-
-
-    // Si j=0 -> 0
-    // si J!=0 -> la de arriba mas esta si procede
-
 }
