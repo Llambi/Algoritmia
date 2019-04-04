@@ -7,8 +7,8 @@ import java.util.Arrays;
 public class PruebaEmparejar {
 
     @Test
-    public void test1(){
-        Empareja e = new Empareja("resources/rechazo06.txt",4);
+    public void test1() {
+        Empareja e = new Empareja("resources/rechazo06.txt", 4);
         e.run();
         System.out.println(Arrays.toString(e.getMejorAsignacion()));
         System.out.println(e.getMejorPuntuacion());

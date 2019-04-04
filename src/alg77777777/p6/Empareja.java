@@ -65,7 +65,7 @@ public class Empareja {
                     this.puntuacion = this.puntuacion - (this.matrizHombres[nivel][i] + this.matrizMujeres[nivel][i]);
                     this.emparejada[i] = false;
                 }
-            this.puntuacion=0;
+            this.puntuacion = 0;
         }
 
     }
