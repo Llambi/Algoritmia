@@ -23,7 +23,7 @@ public class Empareja {
 
     public Empareja(String nomFich, int umbral) {
         this.umbral = umbral;
-        Object[] obj = initMatrix(nomFich); //inicializa tam tambien.
+        Object[] obj = initMatrix(nomFich); //inicializa TAM tambien.
         this.matrizHombres = (int[][]) obj[0];
         this.matrizMujeres = (int[][]) obj[1];
         this.asignacion = new int[this.tam];
