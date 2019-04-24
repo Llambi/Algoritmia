@@ -26,7 +26,8 @@ public class Huffman {
 
     public void run() {
         try {
-            generaTree();
+            if (this.root == null)
+                generaTree();
         } catch (IOException e) {
             e.printStackTrace();
         }
