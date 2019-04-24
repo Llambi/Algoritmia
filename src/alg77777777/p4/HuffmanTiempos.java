@@ -13,9 +13,10 @@ public class HuffmanTiempos {
             generator.run(fileName, i, 10, 1, 1000, 1);
 
             long init = System.currentTimeMillis();
+            Huffman huffman = new Huffman(fileName);
 
             for (int j = 0; j < nTimes; j++) {
-                new Huffman(fileName).run();
+                huffman.run();
             }
 
             long end = System.currentTimeMillis();
