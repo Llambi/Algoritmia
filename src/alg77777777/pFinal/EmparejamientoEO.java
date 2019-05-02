@@ -1,4 +1,4 @@
-package alg77777777.p6;
+package alg77777777.pFinal;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,23 +6,23 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
-public class Empareja {
+public class EmparejamientoEO {
 
     private int umbral;
-
+    private int costeBuscado;
     private int[][] matrizHombres;
     private int[][] matrizMujeres;
     private int tam;
     private boolean[] emparejada;   // La posicion se refiere a la mujer.
-
     private int[] asignacion;   //la posicion sera el hombre el valor sera la mujer.
     private int puntuacion;
-
     private int[] mejorAsignacion;
     private int mejorPuntuacion;
+    private boolean flag;
 
-    public Empareja(String nomFich, int umbral) {
+    public EmparejamientoEO(String nomFich, int umbral, int costeBuscado) {
         this.umbral = umbral;
+        this.costeBuscado = costeBuscado;
         Object[] obj = initMatrix(nomFich); //inicializa tam tambien.
         this.matrizHombres = (int[][]) obj[0];
         this.matrizMujeres = (int[][]) obj[1];
@@ -31,7 +31,18 @@ public class Empareja {
         this.emparejada = new boolean[this.tam];
         this.puntuacion = 0;
         this.mejorPuntuacion = Integer.MAX_VALUE;
+        this.flag = false;
 
+    }
+
+    public static void main(String[] args) {
+        String nomFich = args[0];
+        int umbral = Integer.parseInt(args[1]);
+        int costeBuscado = Integer.parseInt(args[2]);
+
+        EmparejamientoEO e = new EmparejamientoEO(nomFich, umbral, costeBuscado);
+        e.run();
+        if(!e.flag) System.out.println(Arrays.toString(e.getMejorAsignacion()) + "\n" + e.getMejorPuntuacion() + "\n");
 
     }
 
@@ -47,9 +58,16 @@ public class Empareja {
     private void backtracking(int nivel) {
         if (nivel == this.tam)  //hay ya una asignación completa
         {
-            if (this.puntuacion < this.mejorPuntuacion) {
+            if (this.puntuacion == this.costeBuscado) {
+                this.flag = true;
                 System.arraycopy(this.asignacion, 0, this.mejorAsignacion, 0, this.tam);
                 this.mejorPuntuacion = this.puntuacion;
+                System.out.println(Arrays.toString(getMejorAsignacion()) + "\n" + this.getMejorPuntuacion() + "\n");
+            }
+            else if (!flag && compruebaCosteBuscado(this.puntuacion) < compruebaCosteBuscado(this.mejorPuntuacion)) {
+                System.arraycopy(this.asignacion, 0, this.mejorAsignacion, 0, this.tam);
+                this.mejorPuntuacion = this.puntuacion;
+//                System.out.println(Arrays.toString(getMejorAsignacion()) + "\n" + this.getMejorPuntuacion() + "\n");
             }
         } else {
             for (int i = 0; i < this.tam; i++)
@@ -57,16 +75,20 @@ public class Empareja {
                 {
                     this.asignacion[nivel] = i;
 
-                    this.puntuacion  += this.matrizHombres[nivel][i] + this.matrizMujeres[i][nivel];
+                    this.puntuacion += this.matrizHombres[nivel][i] + this.matrizMujeres[i][nivel];
                     this.emparejada[i] = true;
 
                     backtracking(nivel + 1);
 
-                    this.puntuacion  -=this.matrizHombres[nivel][i] + this.matrizMujeres[i][nivel];
+                    this.puntuacion -= this.matrizHombres[nivel][i] + this.matrizMujeres[i][nivel];
                     this.emparejada[i] = false;
                 }
         }
+    }
 
+
+    private int compruebaCosteBuscado(int puntuacion) {
+        return Math.abs(this.costeBuscado - puntuacion);
     }
 
     private boolean seSoportan(int nivel, int i) {
